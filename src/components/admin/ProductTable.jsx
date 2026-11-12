@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
-// Ajusta este import si tu hook useCatalogo está en otra ruta (ej: '../../js/hooks/useCatalogo')
-import { useCatalogo } from '../../hooks/useCatalogo';
 
 export const ProductTable = ({ onOpenCreateModal, onOpenEditModal }) => {
-  const { productos, eliminarProducto } = useCatalogo();
+  // Productos de prueba directos con useState
+  const [productos, setProductos] = useState([
+    { id: 1, sku: 'SKU-001', marca: 'Sazón Co', nombre: 'Ajo en Polvo', gramaje: 250, precio: 15000 },
+    { id: 2, sku: 'SKU-002', marca: 'Sazón Co', nombre: 'Pimentón Ahumado', gramaje: 100, precio: 12000 },
+    { id: 3, sku: 'SKU-003', marca: 'Artesanal', nombre: 'Sal Marina con Hierbas', gramaje: 500, precio: 22000 },
+  ]);
+
   const [productoAEliminar, setProductoAEliminar] = useState(null);
 
   const formatearPrecio = (precio) => {
@@ -14,11 +18,9 @@ export const ProductTable = ({ onOpenCreateModal, onOpenEditModal }) => {
     }).format(precio);
   };
 
-  const confirmarEliminacion = async () => {
-    if (productoAEliminar) {
-      await eliminarProducto(productoAEliminar.id);
-      setProductoAEliminar(null);
-    }
+  const eliminarProducto = (id) => {
+    setProductos(productos.filter((p) => p.id !== id));
+    setProductoAEliminar(null);
   };
 
   return (
@@ -48,7 +50,7 @@ export const ProductTable = ({ onOpenCreateModal, onOpenEditModal }) => {
           <tbody className="bg-white divide-y divide-gray-200">
             {productos && productos.length > 0 ? (
               productos.map((producto) => (
-                <tr key={producto.id || producto.sku} className="hover:bg-gray-50">
+                <tr key={producto.id} className="hover:bg-gray-50">
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{producto.sku}</td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm">
                     <span className="px-2.5 py-1 text-xs font-semibold bg-indigo-100 text-indigo-800 rounded-full">
@@ -102,7 +104,7 @@ export const ProductTable = ({ onOpenCreateModal, onOpenEditModal }) => {
                 Cancelar
               </button>
               <button
-                onClick={confirmarEliminacion}
+                onClick={() => eliminarProducto(productoAEliminar.id)}
                 className="px-4 py-2 text-sm font-medium text-white bg-red-600 hover:bg-red-700 rounded-lg transition-colors"
               >
                 Sí, eliminar
@@ -113,4 +115,4 @@ export const ProductTable = ({ onOpenCreateModal, onOpenEditModal }) => {
       )}
     </div>
   );
-};git 
+};

@@ -1,10 +1,14 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import Header from './components/Header'
+import React from 'react';
+import { createRoot } from 'react-dom/client';
+import './index.css';
+import Header from './components/Header';
+import { AdminCatalogoView } from './js/views/AdminCatalogoView'; // Importamos nuestra vista de la HU-03
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
+  <React.StrictMode>
     <Header />
-  </StrictMode>,
-)
+    <main className="min-h-screen bg-gray-50 pb-12">
+      <AdminCatalogoView />
+    </main>
+  </React.StrictMode>
+);
